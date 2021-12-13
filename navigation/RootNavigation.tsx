@@ -19,6 +19,7 @@ export const RootNavigation = () => {
         component={Entries}
         options={{
           headerShown: false,
+          gestureEnabled: true,
         }}
       />
     </Stack.Navigator>
