@@ -13,7 +13,7 @@ Typography.loadTypographies({
   h2: {fontSize: 32, fontFamily: 'SourceSansPro-Bold'},
   h3: {fontSize: 24, fontFamily: 'SourceSansPro-Bold'},
   h4: {fontSize: 20, fontFamily: 'SourceSansPro-Bold'},
-  regularText: {fontSize: 18, fontFamily: 'SourceSansPro-Regular'},
-
+  regularText: {fontSize: 16, fontFamily: 'SourceSansPro-SemiBold'},
+  smallText: {fontSize: 14, fontFamily: 'SourceSansPro-SemiBold'},
   maxWidth80: {maxWidth: '80%'},
 });

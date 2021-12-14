@@ -18,7 +18,7 @@ export const RootNavigation = () => {
         name="Entries"
         component={Entries}
         options={{
-          headerShown: false,
+          // headerShown: false,
           gestureEnabled: true,
         }}
       />

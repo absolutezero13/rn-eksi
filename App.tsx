@@ -1,14 +1,14 @@
 import React from 'react';
 import 'react-native-gesture-handler';
 import './theme/UIConfig';
-import ExampleComponent from './components/ExampleComponent';
-import {Typography, Colors, Spacings} from 'react-native-ui-lib';
 import {RootNavigation} from './navigation/RootNavigation';
 import {NavigationContainer} from '@react-navigation/native';
+import {StatusBar} from 'react-native';
 
 const App = () => {
   return (
     <NavigationContainer>
+      <StatusBar barStyle="light-content" />
       <RootNavigation />
     </NavigationContainer>
   );
