@@ -1,9 +1,9 @@
 import React from 'react';
-import {Text, View} from 'react-native-ui-lib';
+import {Image, Text, View} from 'react-native-ui-lib';
 import {IEntry} from '../../services/interfaces';
 import {UIColors} from '../../theme/colors';
 import HTML from 'react-native-render-html';
-// import Icon from 'react-native-vector-icons/FontAwesome';
+import whiteDrop from '../../imgs/white-drop.png';
 
 const tagStyles = {
   p: {
@@ -28,14 +28,17 @@ const Entry = ({entry}: {entry: IEntry}) => {
           tagsStyles={tagStyles}
         />
       </View>
-      <Text style={{textAlign: 'right'}} marginR-8 textColor smallText>
-        {entry.fav_count}{' '}
-      </Text>
-      <View style={{justifyContent: 'flex-end'}} row>
-        <Text marginR-8 textColor smallText>
+      <View marginB-3 style={{alignSelf: 'flex-end'}} centerV row>
+        <Image source={whiteDrop} width={14} height={14} />
+        <Text marginL-6 textColor regularText>
+          {entry.fav_count}{' '}
+        </Text>
+      </View>
+      <View style={{justifyContent: 'flex-end', alignSelf: 'flex-end'}}>
+        <Text marginB-3 textColor smallText>
           {entry.created_at} {entry.updated_at ? '~ ' + entry.updated_at : ''}
         </Text>
-        <Text eksiGreen smallText>
+        <Text style={{textAlign: 'right'}} eksiGreen smallText>
           {entry.author}{' '}
         </Text>
       </View>

@@ -10,7 +10,9 @@ export const getTopics = async (): Promise<Topic[]> => {
 
 export const getTopicEntries = async (
   slug: string,
+  currentPage: number,
 ): Promise<{entries: IEntry[]}> => {
-  const response = await axios.get(`${baseURL}/baslik${slug}`);
+  console.log('url', `${baseURL}/baslik${slug}?p=${currentPage}`);
+  const response = await axios.get(`${baseURL}/baslik${slug}&p=${currentPage}`);
   return response.data;
 };

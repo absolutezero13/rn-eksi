@@ -18,18 +18,19 @@ type RouteProps = {
 };
 const Entries = () => {
   const [entries, setEntries] = useState<IEntry[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
   const route = useRoute<RouteProp<RouteProps, 'params'>>();
   const slug = route.params.slug;
+  const title = route.params.title;
 
   useEffect(() => {
-    getTopicEntries(slug)
+    getTopicEntries(slug, currentPage)
       .then(res => {
         console.log(res.entries);
         setEntries(
           res.entries.map(entry => {
             return {
               ...entry,
-
               body: `<p>${entry.body}</p>`,
             };
           }),
@@ -38,12 +39,15 @@ const Entries = () => {
       .catch(err => {
         console.log(err);
       });
-  }, []);
+  }, [currentPage]);
 
   console.log({entries});
   return (
     <View backgroundColor={UIColors.darkMode} flex-1>
-      <SafeAreaView edges={['bottom']} />
+      {/* <SafeAreaView edges={['bottom']} /> */}
+      <Text h3 textColor>
+        {title}{' '}
+      </Text>
       {entries.length ? (
         <FlatList
           data={entries}
