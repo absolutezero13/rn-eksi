@@ -6,6 +6,7 @@ import {View, Text} from 'react-native-ui-lib';
 import Entry from '../../components/Entry/Entry';
 import Hr from '../../components/Hr/Hr';
 import Loading from '../../components/Loading/Loading';
+import PageBoxes from '../../components/PageBoxes/PageBoxes';
 import {IEntry} from '../../services/interfaces';
 import {getTopicEntries} from '../../services/services';
 import {UIColors} from '../../theme/colors';
@@ -17,16 +18,20 @@ type RouteProps = {
   };
 };
 const Entries = () => {
+  const flatListRef = React.useRef<FlatList<IEntry>>(null);
   const [entries, setEntries] = useState<IEntry[]>([]);
+  const [totalPages, setTotalPages] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const route = useRoute<RouteProp<RouteProps, 'params'>>();
   const slug = route.params.slug;
   const title = route.params.title;
 
   useEffect(() => {
+    flatListRef.current?.scrollToOffset({animated: false, offset: 0});
+    setEntries([]);
     getTopicEntries(slug, currentPage)
       .then(res => {
-        console.log(res.entries);
+        setTotalPages(res.total_page);
         setEntries(
           res.entries.map(entry => {
             return {
@@ -42,18 +47,36 @@ const Entries = () => {
   }, [currentPage]);
 
   console.log({entries});
-  return (
-    <View backgroundColor={UIColors.darkMode} flex-1>
-      {/* <SafeAreaView edges={['bottom']} /> */}
-      <Text h3 textColor>
+
+  const RenderEntry = ({item}: {item: IEntry}) => <Entry entry={item} />;
+
+  const RenderHeader = () => (
+    <View backgroundColor={UIColors.darkMode}>
+      <Text marginV-24 center h3 textColor>
         {title}{' '}
       </Text>
+    </View>
+  );
+  return (
+    <View backgroundColor={UIColors.darkMode} flex-1>
+      <SafeAreaView edges={['bottom']} />
       {entries.length ? (
         <FlatList
+          ref={flatListRef}
           data={entries}
-          contentContainerStyle={{paddingHorizontal: 18}}
-          renderItem={({item}) => <Entry entry={item} />}
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{paddingHorizontal: 18, paddingBottom: 75}}
+          ListHeaderComponent={RenderHeader}
+          stickyHeaderIndices={[0]}
+          renderItem={RenderEntry}
           keyExtractor={item => item.id}
+          ListFooterComponent={
+            <PageBoxes
+              currentPage={currentPage}
+              totalPages={totalPages}
+              setCurrentPage={setCurrentPage}
+            />
+          }
           ItemSeparatorComponent={() => <Hr />}
         />
       ) : (

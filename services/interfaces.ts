@@ -14,3 +14,15 @@ export interface IEntry {
   updated_at: string | null;
   fav_count: number;
 }
+
+export interface TopicEntriesResponse {
+  title: string;
+  entries: IEntry[];
+  current_page: number;
+  disambiguation_links: string[];
+  disambiguation_titles: string[];
+  total_page: number;
+  id: string;
+  slug: string;
+  tags: string[];
+}
