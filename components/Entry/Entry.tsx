@@ -1,9 +1,11 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Image, Text, View} from 'react-native-ui-lib';
 import {IEntry} from '../../services/interfaces';
 import {UIColors} from '../../theme/colors';
 import HTML from 'react-native-render-html';
 import whiteDrop from '../../imgs/white-drop.png';
+import {Dimensions} from 'react-native';
+import {screenWidth} from '../../utils/constants';
 
 const tagStyles = {
   p: {
@@ -16,17 +18,36 @@ const tagStyles = {
     fontSize: 16,
     fontFamily: 'SourceSansPro-SemiBold',
   },
+  span: {
+    color: UIColors.eksiGreen,
+  },
 };
 
 const Entry = ({entry}: {entry: IEntry}) => {
+  const [showFullEntry, setShowFullEntry] = useState(false);
+
+  const handleShowFullEntry = () => {
+    setShowFullEntry(true);
+  };
+
   return (
-    <View>
+    <View paddingH-12>
       <View marginB-6>
         <HTML
-          source={{html: entry.body}}
-          contentWidth={300}
+          source={{
+            html:
+              entry.body.length > 400 && !showFullEntry
+                ? entry.body.slice(0, 400) + '...'
+                : entry.body,
+          }}
+          contentWidth={screenWidth}
           tagsStyles={tagStyles}
         />
+        {entry.body.length > 400 && !showFullEntry && (
+          <Text onPress={handleShowFullEntry} eksiGreen regularText>
+            ...devamını okuyayım
+          </Text>
+        )}
       </View>
       <View marginB-3 style={{alignSelf: 'flex-end'}} centerV row>
         <Image source={whiteDrop} width={14} height={14} />

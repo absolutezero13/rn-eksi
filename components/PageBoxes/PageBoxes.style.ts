@@ -14,4 +14,10 @@ export const styles = StyleSheet.create({
     borderRadius: 6,
     marginHorizontal: 3,
   },
+  flatContainer: {
+    paddingHorizontal: 6,
+    borderWidth: 1,
+    borderColor: UIColors.textColor,
+    borderRadius: 4,
+  },
 });

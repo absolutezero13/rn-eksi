@@ -10,6 +10,7 @@ import PageBoxes from '../../components/PageBoxes/PageBoxes';
 import {IEntry} from '../../services/interfaces';
 import {getTopicEntries} from '../../services/services';
 import {UIColors} from '../../theme/colors';
+import {shadows} from '../../theme/shadows';
 
 type RouteProps = {
   params: {
@@ -51,21 +52,25 @@ const Entries = () => {
   const RenderEntry = ({item}: {item: IEntry}) => <Entry entry={item} />;
 
   const RenderHeader = () => (
-    <View backgroundColor={UIColors.darkMode}>
-      <Text marginV-24 center h3 textColor>
-        {title}{' '}
-      </Text>
+    <View style={{overflow: 'hidden', paddingBottom: 16}}>
+      <View
+        paddingH-18
+        style={shadows.primaryShadow}
+        backgroundColor={UIColors.darkMode}>
+        <Text marginB-12 center h3 textColor>
+          {title}{' '}
+        </Text>
+      </View>
     </View>
   );
   return (
     <View backgroundColor={UIColors.darkMode} flex-1>
-      <SafeAreaView edges={['bottom']} />
       {entries.length ? (
         <FlatList
           ref={flatListRef}
           data={entries}
           showsVerticalScrollIndicator={false}
-          contentContainerStyle={{paddingHorizontal: 18, paddingBottom: 75}}
+          contentContainerStyle={{paddingBottom: 75}}
           ListHeaderComponent={RenderHeader}
           stickyHeaderIndices={[0]}
           renderItem={RenderEntry}

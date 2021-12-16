@@ -1,5 +1,4 @@
-import React from 'react';
-import {Pressable} from 'react-native';
+import React, {useState} from 'react';
 import {FlatList} from 'react-native-gesture-handler';
 import {Text, View} from 'react-native-ui-lib';
 import {UIColors} from '../../theme/colors';
@@ -12,7 +11,7 @@ interface IProps {
 }
 
 const PageBoxes = ({totalPages, currentPage, setCurrentPage}: IProps) => {
-  const [dropDownVisible, setDropDownVisible] = React.useState(false);
+  const [dropDownVisible, setDropDownVisible] = useState(false);
 
   const DropDown = () => {
     return (
@@ -24,12 +23,7 @@ const PageBoxes = ({totalPages, currentPage, setCurrentPage}: IProps) => {
         <FlatList
           data={Array(totalPages).fill(0)}
           style={{height: 100, width: totalPages.toString().length * 16}}
-          contentContainerStyle={{
-            paddingHorizontal: 6,
-            borderWidth: 1,
-            borderColor: UIColors.textColor,
-            borderRadius: 4,
-          }}
+          contentContainerStyle={styles.flatContainer}
           renderItem={({item, index}) => (
             <Text
               regularText

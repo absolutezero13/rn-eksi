@@ -48,14 +48,17 @@ const Home = () => {
           paddingTop: 12,
         }}
       />
-      <Image
-        source={eksiLogoWhite}
-        style={{
-          width: 120,
-          height: 25,
-        }}
-        resizeMode="contain"
-      />
+      <View>
+        <Image
+          source={eksiLogoWhite}
+          style={{
+            width: 120,
+            height: 25,
+          }}
+          resizeMode="contain"
+        />
+      </View>
+
       <View flex-1>
         {hotTopics.length ? (
           <FlatList

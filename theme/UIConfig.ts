@@ -1,4 +1,5 @@
 import {Typography, Colors} from 'react-native-ui-lib';
+import {UIColors} from './colors';
 
 Colors.loadColors({
   eksiGreen: '#80c14c',

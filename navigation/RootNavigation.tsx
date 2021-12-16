@@ -2,6 +2,8 @@ import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Home from '../pages/Home/Home';
 import Entries from '../pages/Entries/Entries';
+import {Text} from 'react-native-ui-lib';
+import {UIColors} from '../theme/colors';
 const Stack = createNativeStackNavigator();
 
 export const RootNavigation = () => {
@@ -18,8 +20,12 @@ export const RootNavigation = () => {
         name="Entries"
         component={Entries}
         options={{
-          headerShown: false,
-          gestureEnabled: true,
+          headerBackTitle: 'Geri',
+          headerTitle: () => <Text text50></Text>,
+          headerShadowVisible: false,
+          headerStyle: {
+            backgroundColor: UIColors.darkMode,
+          },
         }}
       />
     </Stack.Navigator>
