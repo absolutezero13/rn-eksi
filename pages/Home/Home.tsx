@@ -11,6 +11,7 @@ import {styles} from './Home.style';
 import eksiLogoWhite from '../../imgs/eksi-logo-white.png';
 import {Pressable} from 'react-native';
 import PressableOpacity from '../../components/PressableOpacityComponent/PressableOpacity';
+import {shadows} from '../../theme/shadows';
 
 const Home = () => {
   const navigation = useNavigation();
@@ -44,25 +45,30 @@ const Home = () => {
   };
 
   return (
-    <View paddingH-18 backgroundColor={UIColors.darkMode} flex-1>
+    <View backgroundColor={UIColors.darkMode} flex-1>
       <SafeAreaView
         edges={['bottom']}
         style={{
           paddingTop: 12,
         }}
       />
-      <View centerH>
-        <Image
-          source={eksiLogoWhite}
-          style={{
-            width: 120,
-            height: 25,
-          }}
-          resizeMode="contain"
-        />
+      <View style={{overflow: 'hidden', paddingBottom: 12}}>
+        <View
+          backgroundColor={UIColors.darkMode}
+          style={shadows.primaryShadow}
+          centerH>
+          <Image
+            source={eksiLogoWhite}
+            style={{
+              width: 120,
+              height: 30,
+            }}
+            resizeMode="contain"
+          />
+        </View>
       </View>
 
-      <View flex-1>
+      <View paddingH-18>
         {hotTopics.length ? (
           <FlatList
             showsVerticalScrollIndicator={false}

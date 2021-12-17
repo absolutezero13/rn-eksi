@@ -4,8 +4,8 @@ import {IEntry} from '../../services/interfaces';
 import {UIColors} from '../../theme/colors';
 import HTML from 'react-native-render-html';
 import whiteDrop from '../../imgs/white-drop.png';
-import {Dimensions} from 'react-native';
 import {screenWidth} from '../../utils/constants';
+import {useNavigation} from '@react-navigation/native';
 
 const tagStyles = {
   p: {
@@ -24,6 +24,7 @@ const tagStyles = {
 };
 
 const Entry = ({entry}: {entry: IEntry}) => {
+  const navigation = useNavigation();
   const [showFullEntry, setShowFullEntry] = useState(false);
 
   const handleShowFullEntry = () => {
@@ -59,7 +60,11 @@ const Entry = ({entry}: {entry: IEntry}) => {
         <Text marginB-3 textColor smallText>
           {entry.created_at} {entry.updated_at ? '~ ' + entry.updated_at : ''}
         </Text>
-        <Text style={{textAlign: 'right'}} eksiGreen smallText>
+        <Text
+          onPress={() => navigation.navigate('UserPage', {nick: entry.author})}
+          style={{textAlign: 'right'}}
+          eksiGreen
+          smallText>
           {entry.author}{' '}
         </Text>
       </View>

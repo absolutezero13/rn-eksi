@@ -26,3 +26,15 @@ export interface TopicEntriesResponse {
   slug: string;
   tags: string[];
 }
+export interface IUser {
+  nick: string;
+  quote_entry_title: string;
+  quote_entry_body: string;
+  quote_entry_date: string;
+  quote_entry_url: string;
+  entry_count_total: string;
+  entry_count_lastmonth: string;
+  entry_count_lastweek: string;
+  entry_count_today: string;
+  last_entry_time: string;
+}
