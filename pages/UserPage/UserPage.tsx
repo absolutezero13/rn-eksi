@@ -39,6 +39,14 @@ const UserPage = () => {
               contentWidth={screenWidth}
               tagsStyles={tagStyles}
             />
+            <Text
+              marginT-6
+              style={{textAlign: 'right'}}
+              marginB-3
+              textColor
+              smallText>
+              {user.quote_entry_date}
+            </Text>
             <View right style={{opacity: 0.5}}>
               <Image source={require('../../imgs/quoteRight.png')} />
             </View>
