@@ -5,6 +5,7 @@ import Entries from '../pages/Entries/Entries';
 import {Text} from 'react-native-ui-lib';
 import {UIColors} from '../theme/colors';
 import UserPage from '../pages/UserPage/UserPage';
+import {HeaderWithBackTitle} from './headers';
 const Stack = createNativeStackNavigator();
 
 export const RootNavigation = () => {
@@ -20,14 +21,7 @@ export const RootNavigation = () => {
       <Stack.Screen
         name="Entries"
         component={Entries}
-        options={{
-          headerBackTitle: 'Geri',
-          headerTitle: () => <Text text50></Text>,
-          headerShadowVisible: false,
-          headerStyle: {
-            backgroundColor: UIColors.darkMode,
-          },
-        }}
+        options={({route}) => HeaderWithBackTitle({title: route.params.title})}
       />
       <Stack.Screen
         name="UserPage"

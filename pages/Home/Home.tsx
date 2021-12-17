@@ -60,8 +60,8 @@ const Home = () => {
           <Image
             source={eksiLogoWhite}
             style={{
-              width: 120,
-              height: 30,
+              width: 160,
+              height: 40,
             }}
             resizeMode="contain"
           />

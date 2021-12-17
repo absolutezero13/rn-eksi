@@ -71,8 +71,8 @@ const Entries = () => {
           data={entries}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{paddingBottom: 75}}
-          ListHeaderComponent={RenderHeader}
-          stickyHeaderIndices={[0]}
+          // ListHeaderComponent={RenderHeader}
+          // stickyHeaderIndices={[0]}
           renderItem={RenderEntry}
           keyExtractor={item => item.id}
           ListFooterComponent={

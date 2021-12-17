@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {FlatList} from 'react-native-gesture-handler';
-import {Text, View} from 'react-native-ui-lib';
-import {UIColors} from '../../theme/colors';
+import {Image, Text, View} from 'react-native-ui-lib';
+import PressableOpacity from '../PressableOpacityComponent/PressableOpacity';
 import {styles} from './PageBoxes.style';
 
 interface IProps {
@@ -12,6 +12,17 @@ interface IProps {
 
 const PageBoxes = ({totalPages, currentPage, setCurrentPage}: IProps) => {
   const [dropDownVisible, setDropDownVisible] = useState(false);
+
+  const onPressNext = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(prev => prev + 1);
+    }
+  };
+  const onPressPrevious = () => {
+    if (currentPage !== 1) {
+      setCurrentPage(prev => prev - 1);
+    }
+  };
 
   const DropDown = () => {
     return (
@@ -44,16 +55,12 @@ const PageBoxes = ({totalPages, currentPage, setCurrentPage}: IProps) => {
     <View height={30} centerH marginT-24 row>
       {currentPage !== 1 && (
         <View style={styles.box}>
-          <Text
-            regularText
-            textColor
-            onPress={() => {
-              if (currentPage !== 1) {
-                setCurrentPage(prev => prev - 1);
-              }
-            }}>
-            {'<<<'}
-          </Text>
+          <PressableOpacity onPress={onPressPrevious}>
+            <Image
+              style={{width: 20, height: 20}}
+              source={require('../../imgs/backIcon.png')}
+            />
+          </PressableOpacity>
         </View>
       )}
       <View>
@@ -80,16 +87,12 @@ const PageBoxes = ({totalPages, currentPage, setCurrentPage}: IProps) => {
       </View>
       {currentPage < totalPages && (
         <View style={styles.box}>
-          <Text
-            regularText
-            textColor
-            onPress={() => {
-              if (currentPage < totalPages) {
-                setCurrentPage(prev => prev + 1);
-              }
-            }}>
-            {'>>>'}
-          </Text>
+          <PressableOpacity onPress={onPressNext}>
+            <Image
+              style={{width: 20, height: 20}}
+              source={require('../../imgs/nextIcon.png')}
+            />
+          </PressableOpacity>
         </View>
       )}
     </View>
