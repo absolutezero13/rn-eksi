@@ -1,10 +1,11 @@
 import React from 'react';
-import {TouchableOpacity} from 'react-native-gesture-handler';
 import {Text} from 'react-native-ui-lib';
 import {Topic} from '../../services/interfaces';
+import PressableOpacity from '../PressableOpacityComponent/PressableOpacity';
+import {styles} from './Topic.style';
 
 const TopicComponent = ({item, onPress}: {item: Topic; onPress: any}) => (
-  <TouchableOpacity onPress={onPress} style={[styles.topic]}>
+  <PressableOpacity onPress={onPress} style={[styles.topic]}>
     <>
       <Text regularText textColor maxWidth80>
         {item.title}
@@ -13,7 +14,7 @@ const TopicComponent = ({item, onPress}: {item: Topic; onPress: any}) => (
         {item.entry_count}{' '}
       </Text>
     </>
-  </TouchableOpacity>
+  </PressableOpacity>
 );
 
 export default TopicComponent;

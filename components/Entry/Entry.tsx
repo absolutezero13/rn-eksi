@@ -7,7 +7,7 @@ import whiteDrop from '../../imgs/white-drop.png';
 import {screenWidth} from '../../utils/constants';
 import {useNavigation} from '@react-navigation/native';
 
-const tagStyles = {
+export const tagStyles = {
   p: {
     color: UIColors.textColor,
     fontWeight: 'normal',

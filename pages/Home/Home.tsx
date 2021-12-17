@@ -2,16 +2,15 @@ import {useNavigation} from '@react-navigation/native';
 import React, {useEffect, useState} from 'react';
 import {FlatList} from 'react-native-gesture-handler';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {View, Text, Image} from 'react-native-ui-lib';
+import {View, Image} from 'react-native-ui-lib';
 import Loading from '../../components/Loading/Loading';
 import {Topic} from '../../services/interfaces';
 import {getTopics} from '../../services/services';
 import {UIColors} from '../../theme/colors';
 import {styles} from './Home.style';
 import eksiLogoWhite from '../../imgs/eksi-logo-white.png';
-import {Pressable} from 'react-native';
-import PressableOpacity from '../../components/PressableOpacityComponent/PressableOpacity';
 import {shadows} from '../../theme/shadows';
+import TopicComponent from '../../components/Topic/Topic';
 
 const Home = () => {
   const navigation = useNavigation();
@@ -24,16 +23,7 @@ const Home = () => {
   }, []);
 
   const renderTopic = ({item}: {item: Topic}) => (
-    <PressableOpacity onPress={() => pressItem(item)} style={styles.topic}>
-      <>
-        <Text regularText textColor maxWidth80>
-          {item.title}
-        </Text>
-        <Text regularText darkerTextColor>
-          {item.entry_count}{' '}
-        </Text>
-      </>
-    </PressableOpacity>
+    <TopicComponent onPress={() => pressItem(item)} item={item} />
   );
 
   const pressItem = (item: Topic) => {
@@ -59,20 +49,18 @@ const Home = () => {
           centerH>
           <Image
             source={eksiLogoWhite}
-            style={{
-              width: 160,
-              height: 40,
-            }}
+            style={styles.img}
             resizeMode="contain"
           />
         </View>
       </View>
 
-      <View paddingH-18>
+      <View flex-1 paddingH-18>
         {hotTopics.length ? (
           <FlatList
             showsVerticalScrollIndicator={false}
             contentContainerStyle={{paddingBottom: 40}}
+            style={{flex: 1}}
             initialNumToRender={50}
             data={hotTopics}
             renderItem={renderTopic}
