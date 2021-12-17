@@ -1,5 +1,4 @@
 import React from 'react';
-import 'react-native-gesture-handler';
 import './theme/UIConfig';
 import {RootNavigation} from './navigation/RootNavigation';
 import {NavigationContainer} from '@react-navigation/native';

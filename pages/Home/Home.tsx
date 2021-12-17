@@ -9,8 +9,8 @@ import {getTopics} from '../../services/services';
 import {UIColors} from '../../theme/colors';
 import {styles} from './Home.style';
 import eksiLogoWhite from '../../imgs/eksi-logo-white.png';
-import { Pressable } from 'react-native';
-import PressableOpacity from '../PressableOpacityComponent/PressableOpacity';
+import {Pressable} from 'react-native';
+import PressableOpacity from '../../components/PressableOpacityComponent/PressableOpacity';
 
 const Home = () => {
   const navigation = useNavigation();
@@ -36,7 +36,7 @@ const Home = () => {
   );
 
   const pressItem = (item: Topic) => {
-    console.log("press")
+    console.log('press');
     navigation.navigate('Entries', {
       slug: item.slug,
       title: item.title,
@@ -51,7 +51,7 @@ const Home = () => {
           paddingTop: 12,
         }}
       />
-      <View>
+      <View centerH>
         <Image
           source={eksiLogoWhite}
           style={{

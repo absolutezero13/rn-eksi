@@ -31,7 +31,7 @@ const Entry = ({entry}: {entry: IEntry}) => {
   };
 
   return (
-    <View paddingH-12>
+    <View paddingH-16>
       <View marginB-6>
         <HTML
           source={{
