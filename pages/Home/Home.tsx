@@ -1,6 +1,6 @@
 import {useNavigation} from '@react-navigation/native';
 import React, {useEffect, useState} from 'react';
-import {FlatList, TouchableOpacity} from 'react-native-gesture-handler';
+import {FlatList} from 'react-native-gesture-handler';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {View, Text, Image} from 'react-native-ui-lib';
 import Loading from '../../components/Loading/Loading';
@@ -9,6 +9,8 @@ import {getTopics} from '../../services/services';
 import {UIColors} from '../../theme/colors';
 import {styles} from './Home.style';
 import eksiLogoWhite from '../../imgs/eksi-logo-white.png';
+import { Pressable } from 'react-native';
+import PressableOpacity from '../PressableOpacityComponent/PressableOpacity';
 
 const Home = () => {
   const navigation = useNavigation();
@@ -21,7 +23,7 @@ const Home = () => {
   }, []);
 
   const renderTopic = ({item}: {item: Topic}) => (
-    <TouchableOpacity onPress={() => pressItem(item)} style={styles.topic}>
+    <PressableOpacity onPress={() => pressItem(item)} style={styles.topic}>
       <>
         <Text regularText textColor maxWidth80>
           {item.title}
@@ -30,10 +32,11 @@ const Home = () => {
           {item.entry_count}{' '}
         </Text>
       </>
-    </TouchableOpacity>
+    </PressableOpacity>
   );
 
   const pressItem = (item: Topic) => {
+    console.log("press")
     navigation.navigate('Entries', {
       slug: item.slug,
       title: item.title,
