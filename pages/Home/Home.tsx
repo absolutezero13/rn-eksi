@@ -11,10 +11,12 @@ import {styles} from './Home.style';
 import eksiLogoWhite from '../../imgs/eksi-logo-white.png';
 import {shadows} from '../../theme/shadows';
 import TopicComponent from '../../components/Topic/Topic';
+import SearchInput from '../../components/SearchInput/SearchInput';
 
 const Home = () => {
   const navigation = useNavigation();
   const [hotTopics, setHotTopics] = useState<Topic[]>([]);
+  const [searchValue, setSearchValue] = useState<string>('');
 
   useEffect(() => {
     getTopics().then(res => {
@@ -44,14 +46,19 @@ const Home = () => {
       />
       <View style={{overflow: 'hidden', paddingBottom: 12}}>
         <View
+          row
+          centerV
+          spread
+          paddingH-5
+          paddingB-6
           backgroundColor={UIColors.darkMode}
-          style={shadows.primaryShadow}
-          centerH>
+          style={shadows.primaryShadow}>
           <Image
             source={eksiLogoWhite}
             style={styles.img}
             resizeMode="contain"
           />
+          <SearchInput setValue={setSearchValue} value={searchValue} />
         </View>
       </View>
 

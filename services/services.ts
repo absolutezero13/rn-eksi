@@ -1,6 +1,11 @@
 import axios from 'axios';
 import {handleError} from './errorHandler';
-import {IUser, Topic, TopicEntriesResponse} from './interfaces';
+import {
+  AutoCompleteResults,
+  IUser,
+  Topic,
+  TopicEntriesResponse,
+} from './interfaces';
 
 const baseURL = 'https://eksisozluk-api.herokuapp.com/api';
 
@@ -30,6 +35,17 @@ export const getTopicEntries = async (
 export const getUser = async (nick: string): Promise<IUser | undefined> => {
   try {
     const response = await axios.get(`${baseURL}/biri/${nick}`);
+    return response.data;
+  } catch (error) {
+    handleError(error);
+  }
+};
+
+export const autoComplete = async (
+  query: string,
+): Promise<AutoCompleteResults | undefined> => {
+  try {
+    const response = await axios.get(`${baseURL}/autocomplete/${query}`);
     return response.data;
   } catch (error) {
     handleError(error);

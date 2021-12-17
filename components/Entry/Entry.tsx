@@ -6,6 +6,7 @@ import HTML from 'react-native-render-html';
 import whiteDrop from '../../imgs/white-drop.png';
 import {screenWidth} from '../../utils/constants';
 import {useNavigation} from '@react-navigation/native';
+import PressableOpacity from '../PressableOpacityComponent/PressableOpacity';
 
 export const tagStyles = {
   p: {
@@ -45,28 +46,29 @@ const Entry = ({entry}: {entry: IEntry}) => {
           tagsStyles={tagStyles}
         />
         {entry.body.length > 400 && !showFullEntry && (
-          <Text onPress={handleShowFullEntry} eksiGreen regularText>
-            ...devamını okuyayım
-          </Text>
+          <PressableOpacity onPress={handleShowFullEntry}>
+            <Text eksiGreen regularText>
+              ...devamını okuyayım
+            </Text>
+          </PressableOpacity>
         )}
       </View>
-      <View marginB-3 style={{alignSelf: 'flex-end'}} centerV row>
+      <View marginB-3 right centerV row>
         <Image source={whiteDrop} width={14} height={14} />
         <Text marginL-6 textColor regularText>
           {entry.fav_count}{' '}
         </Text>
       </View>
-      <View style={{justifyContent: 'flex-end', alignSelf: 'flex-end'}}>
+      <View right>
         <Text marginB-3 textColor smallText>
           {entry.created_at} {entry.updated_at ? '~ ' + entry.updated_at : ''}
         </Text>
-        <Text
-          onPress={() => navigation.navigate('UserPage', {nick: entry.author})}
-          style={{textAlign: 'right'}}
-          eksiGreen
-          smallText>
-          {entry.author}{' '}
-        </Text>
+        <PressableOpacity
+          onPress={() => navigation.navigate('UserPage', {nick: entry.author})}>
+          <Text style={{textAlign: 'right'}} eksiGreen smallText>
+            {entry.author}{' '}
+          </Text>
+        </PressableOpacity>
       </View>
     </View>
   );

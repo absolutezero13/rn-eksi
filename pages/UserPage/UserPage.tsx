@@ -1,5 +1,6 @@
 import {RouteProp, useRoute} from '@react-navigation/native';
 import React, {useEffect, useState} from 'react';
+import {ScrollView} from 'react-native-gesture-handler';
 import HTML from 'react-native-render-html';
 import {Image, Text, View} from 'react-native-ui-lib';
 import {tagStyles} from '../../components/Entry/Entry';
@@ -27,7 +28,10 @@ const UserPage = () => {
   return (
     <View paddingH-16 backgroundColor={UIColors.darkMode} flex-1>
       {user ? (
-        <View marginT-12>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{paddingBottom: 40}}
+          marginT-12>
           <View marginT-12>
             <View style={{opacity: 0.5}}>
               <Image source={require('../../imgs/quoteLeft.png')} />
@@ -58,7 +62,7 @@ const UserPage = () => {
             toplam entry:
             <Text eksiGreen> {user?.entry_count_total}</Text>
           </Text>
-        </View>
+        </ScrollView>
       ) : (
         <Loading />
       )}

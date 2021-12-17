@@ -38,3 +38,9 @@ export interface IUser {
   entry_count_today: string;
   last_entry_time: string;
 }
+
+export interface AutoCompleteResults {
+  Nicks: string[];
+  Query: string;
+  Titles: string[];
+}
