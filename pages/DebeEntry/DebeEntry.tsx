@@ -17,8 +17,10 @@ const DebeEntry = () => {
 
   return (
     <View flex-1 backgroundColor={UIColors.darkMode}>
-      <ScrollView style={{marginTop: 24}}>
-        <View paddingH-16>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{paddingBottom: 75}}>
+        <View marginT-24 paddingH-16>
           <Text marginB-12 textColor h3>
             {route.params.debe.title}{' '}
           </Text>

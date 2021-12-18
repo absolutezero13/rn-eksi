@@ -8,16 +8,14 @@ import {screenWidth} from '../../utils/constants';
 import {useNavigation} from '@react-navigation/native';
 import PressableOpacity from '../PressableOpacityComponent/PressableOpacity';
 
+const systemFonts = ['SourceSansPro-SemiBold'];
+
 export const tagStyles = {
-  p: {
-    color: UIColors.textColor,
-    fontWeight: 'normal',
-    fontFamily: 'SourceSansPro-SemiBold',
-  },
   body: {
     color: UIColors.textColor,
     fontSize: 16,
     fontFamily: 'SourceSansPro-SemiBold',
+    fontWeight: 'normal',
   },
   span: {
     color: UIColors.eksiGreen,
@@ -44,6 +42,7 @@ const Entry = ({entry}: {entry: IEntry}) => {
           }}
           contentWidth={screenWidth}
           tagsStyles={tagStyles}
+          systemFonts={systemFonts}
         />
         {entry.body.length > 400 && !showFullEntry && (
           <PressableOpacity onPress={handleShowFullEntry}>

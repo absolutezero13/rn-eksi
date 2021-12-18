@@ -23,7 +23,7 @@ export const HeaderWithBackTitle = ({title}: {title: string}) => {
             source={require('../imgs/backIcon.png')}
           />
         </PressableOpacity>
-        <View style={{maxWidth: '80%'}} marginL-30>
+        <View style={{maxWidth: '85%'}} marginL-30>
           <Text textColor darkGreyBlue regularText>
             {title}
           </Text>
