@@ -2,6 +2,7 @@ import axios from 'axios';
 import {handleError} from './errorHandler';
 import {
   AutoCompleteResults,
+  DebeResponse,
   IUser,
   SearchResults,
   Topic,
@@ -10,7 +11,7 @@ import {
 
 const baseURL = 'https://eksisozluk-api.herokuapp.com/api';
 
-export const getTopics = async (): Promise<Topic[] | undefined> => {
+export const getTopics = async (): Promise<Topic[] | []> => {
   try {
     const response = await axios.get(`${baseURL}/basliklar`);
     return response.data;
@@ -29,6 +30,16 @@ export const getTopicEntries = async (
     const response = await axios.get(
       `${baseURL}/baslik${slug}${isSearch ? '?' : '&'}p=${currentPage}`,
     );
+    return response.data;
+  } catch (error) {
+    handleError(error);
+    return [];
+  }
+};
+
+export const getDebe = async (): Promise<DebeResponse | []> => {
+  try {
+    const response = await axios.get(`${baseURL}/debe`);
     return response.data;
   } catch (error) {
     handleError(error);
@@ -58,16 +69,13 @@ export const autoComplete = async (
 
 export const getSearchResults = async (
   query: string,
-): Promise<SearchResults> => {
+): Promise<SearchResults | []> => {
   try {
     console.log(`${baseURL}/ara/${query}`);
     const response = await axios.get(`${baseURL}/ara/${query}`);
     return response.data;
   } catch (error) {
     handleError(error);
-
-    return {
-      error,
-    };
+    return [];
   }
 };

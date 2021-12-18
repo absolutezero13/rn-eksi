@@ -7,10 +7,10 @@ export interface Topic {
 
 export interface IEntry {
   author: string;
-  author_id: string;
+  author_id?: string;
   body: string;
   created_at: string;
-  id: string;
+  id: string | number;
   updated_at: string | null;
   fav_count: number;
 }
@@ -55,4 +55,18 @@ interface Thread {
   title: string;
   slug: string;
   entry_count_total: number;
+}
+
+export interface Debe {
+  id: number;
+  title: string;
+  body: string;
+  author: string;
+  fav_count: number;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface DebeResponse {
+  entries: Debe[];
 }

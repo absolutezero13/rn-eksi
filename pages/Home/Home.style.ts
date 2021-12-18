@@ -1,4 +1,5 @@
 import {StyleSheet} from 'react-native';
+import {UIColors} from '../../theme/colors';
 import {screenWidth} from '../../utils/constants';
 
 export const styles = StyleSheet.create({
@@ -20,3 +21,18 @@ export const styles = StyleSheet.create({
     borderBottomRightRadius: 10,
   },
 });
+
+export const topicLinkStyles = (selectedTopicFilter: string, value: string) =>
+  StyleSheet.create({
+    container: {
+      borderBottomColor:
+        selectedTopicFilter === value ? UIColors.eksiGreen : UIColors.disabled,
+      borderBottomWidth: 5,
+      marginHorizontal: 12,
+      width: 70,
+    },
+    text: {
+      color:
+        selectedTopicFilter === value ? UIColors.eksiGreen : UIColors.disabled,
+    },
+  });

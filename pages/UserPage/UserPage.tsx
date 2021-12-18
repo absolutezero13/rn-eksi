@@ -38,6 +38,9 @@ const UserPage = () => {
             <View style={{opacity: 0.5}}>
               <Image source={require('../../imgs/quoteLeft.png')} />
             </View>
+            <Text marginB-24 h3 textColor>
+              {user.quote_entry_title}
+            </Text>
             <HTML
               source={{
                 html: user.quote_entry_body,

@@ -4,10 +4,10 @@ import {FlatList} from 'react-native-gesture-handler';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {View, Image, Text} from 'react-native-ui-lib';
 import Loading from '../../components/Loading/Loading';
-import {Topic} from '../../services/interfaces';
-import {getSearchResults, getTopics, getUser} from '../../services/services';
+import {Debe, Topic} from '../../services/interfaces';
+import {getDebe, getSearchResults, getTopics} from '../../services/services';
 import {UIColors} from '../../theme/colors';
-import {styles} from './Home.style';
+import {styles, topicLinkStyles} from './Home.style';
 import eksiLogoWhite from '../../imgs/eksi-logo-white.png';
 import {shadows} from '../../theme/shadows';
 import TopicComponent from '../../components/Topic/Topic';
@@ -18,27 +18,40 @@ import slugify from 'slugify';
 
 const Home = () => {
   const navigation = useNavigation();
-  const [hotTopics, setHotTopics] = useState<Topic[]>([]);
+  const [topics, setTopics] = useState<Topic[] | Debe[]>([]);
   const [searchValue, setSearchValue] = useState<string>('');
+  const [selectedTopicFilter, setSelectedTopicFilter] =
+    useState<string>('agenda');
 
   useEffect(() => {
-    getTopics().then(res => {
-      setHotTopics(res);
-    });
-  }, []);
+    setTopics([]);
+    if (selectedTopicFilter === 'agenda') {
+      getTopics().then(res => {
+        setTopics(res);
+      });
+    } else {
+      getDebe().then(res => {
+        setTopics(res.entries);
+      });
+    }
+  }, [navigation, selectedTopicFilter]);
 
   const [autoCompleteResults, setAutoCompleteResults] = React.useState<
     string[] | []
   >([]);
 
   const pressItem = (item: Topic) => {
-    console.log('press');
-    console.log('gündem slug', item.slug);
-    navigation.navigate('Entries', {
-      slug: item.slug,
-      title: item.title,
-      isSearch: false,
-    });
+    if (selectedTopicFilter === 'agenda') {
+      navigation.navigate('Entries', {
+        slug: item.slug,
+        title: item.title,
+        isSearch: false,
+      });
+    } else {
+      navigation.navigate('DebeEntry', {
+        debe: item,
+      });
+    }
   };
 
   const pressDropDownItem = (item: string) => {
@@ -93,6 +106,21 @@ const Home = () => {
     <TopicComponent onPress={() => pressItem(item)} item={item} />
   );
 
+  const TopicLink = ({text, value}: {text: string; value: string}) => {
+    return (
+      <PressableOpacity
+        onPress={() => setSelectedTopicFilter(value)}
+        style={topicLinkStyles(selectedTopicFilter, value).container}>
+        <Text
+          style={topicLinkStyles(selectedTopicFilter, value).text}
+          center
+          regularText>
+          {text}{' '}
+        </Text>
+      </PressableOpacity>
+    );
+  };
+
   return (
     <View backgroundColor={UIColors.darkMode} flex-1>
       <SafeAreaView
@@ -102,14 +130,7 @@ const Home = () => {
         }}
       />
       <View style={{paddingBottom: 12}}>
-        <View
-          row
-          centerV
-          spread
-          paddingH-5
-          paddingB-6
-          backgroundColor={UIColors.darkMode}
-          style={shadows.primaryShadow}>
+        <View row centerV spread paddingH-5 paddingB-6>
           <Image
             source={eksiLogoWhite}
             style={styles.img}
@@ -122,17 +143,26 @@ const Home = () => {
             value={searchValue}
           />
         </View>
+        <View
+          paddingB-12
+          backgroundColor={UIColors.darkMode}
+          style={shadows.primaryShadow}
+          centerH
+          row>
+          <TopicLink value="agenda" text="Gündem" />
+          <TopicLink value="debe" text="Debe" />
+        </View>
       </View>
       {autoCompleteResults?.length > 0 && <DropDown />}
 
       <View flex-1 paddingH-18>
-        {hotTopics.length ? (
+        {topics.length ? (
           <FlatList
             showsVerticalScrollIndicator={false}
             contentContainerStyle={{paddingBottom: 40}}
             style={{flex: 1}}
             initialNumToRender={50}
-            data={hotTopics}
+            data={topics}
             renderItem={renderTopic}
             keyExtractor={item => item.id.toString()}
           />

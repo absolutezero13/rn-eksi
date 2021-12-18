@@ -4,4 +4,5 @@ export const UIColors = {
   darkerMode: '#1f1f1f',
   textColor: '#b9b7b7',
   darkerTextColor: '#666666',
+  disabled: '#D3D3D3',
 };
