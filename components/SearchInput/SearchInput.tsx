@@ -39,7 +39,12 @@ const SearchInput = ({
         onChangeText={text => {
           setValue(text);
           if (text) {
-            autoComplete(text).then(res => setAutoCompleteResults(res?.Titles));
+            autoComplete(text).then(res =>
+              setAutoCompleteResults([
+                ...res?.Titles,
+                ...res?.Nicks.map(nick => '@' + nick),
+              ]),
+            );
           } else {
             setAutoCompleteResults([]);
           }
