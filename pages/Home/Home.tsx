@@ -65,22 +65,26 @@ const Home = () => {
 
   const pressDropDownItem = (item: string) => {
     setSearchValue(item);
-
+    console.log('slug', slugify(item));
     getSearchResults(slugify(item)).then(res => {
       console.log('SEARCH RESULTS', res);
       try {
+        const thread: any = res.threads.find(thread => {
+          console.log('COMPARING', thread.title, item);
+          return thread.title === item;
+        });
+
         navigation.navigate('Entries', {
-          slug: res.threads[0].slug.replace('https://eksisozluk.com', ''),
-          title: res.threads[0].title,
+          slug: thread
+            ? thread.slug.replace('https://eksisozluk.com', '')
+            : res.threads[0].slug.replace('https://eksisozluk.com', ''),
+          title: thread ? thread.title : res.threads[0].title,
           isSearch: true,
         });
       } catch (e) {
         console.log(e);
       }
     });
-    // navigation.navigate('Entries', {
-    //   slug: item,
-    // });
   };
   return (
     <View backgroundColor={UIColors.darkMode} flex-1>
