@@ -1,4 +1,5 @@
 import {Alert} from 'react-native';
+import {navRef} from '../App';
 
 export const handleError = (error: any) => {
   Alert.alert(
@@ -7,7 +8,7 @@ export const handleError = (error: any) => {
     [
       {
         text: 'Tamam',
-        onPress: () => console.log('OK Pressed'),
+        onPress: () => navRef.goBack(),
       },
     ],
     {cancelable: false},

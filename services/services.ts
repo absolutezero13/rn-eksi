@@ -3,6 +3,7 @@ import {handleError} from './errorHandler';
 import {
   AutoCompleteResults,
   IUser,
+  SearchResults,
   Topic,
   TopicEntriesResponse,
 } from './interfaces';
@@ -15,20 +16,23 @@ export const getTopics = async (): Promise<Topic[] | undefined> => {
     return response.data;
   } catch (error) {
     handleError(error);
+    return [];
   }
 };
 
 export const getTopicEntries = async (
   slug: string,
   currentPage: number,
-): Promise<TopicEntriesResponse | undefined> => {
+  isSearch: boolean,
+): Promise<TopicEntriesResponse | []> => {
   try {
     const response = await axios.get(
-      `${baseURL}/baslik${slug}&p=${currentPage}`,
+      `${baseURL}/baslik${slug}${isSearch ? '?' : '&'}p=${currentPage}`,
     );
     return response.data;
   } catch (error) {
     handleError(error);
+    return [];
   }
 };
 
@@ -49,5 +53,21 @@ export const autoComplete = async (
     return response.data;
   } catch (error) {
     handleError(error);
+  }
+};
+
+export const getSearchResults = async (
+  query: string,
+): Promise<SearchResults> => {
+  try {
+    console.log(`${baseURL}/ara/${query}`);
+    const response = await axios.get(`${baseURL}/ara/${query}`);
+    return response.data;
+  } catch (error) {
+    handleError(error);
+
+    return {
+      error,
+    };
   }
 };

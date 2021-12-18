@@ -16,6 +16,7 @@ type RouteProps = {
   params: {
     slug: string;
     title: string;
+    isSearch: boolean;
   };
 };
 const Entries = () => {
@@ -24,13 +25,12 @@ const Entries = () => {
   const [totalPages, setTotalPages] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const route = useRoute<RouteProp<RouteProps, 'params'>>();
-  const slug = route.params.slug;
-  const title = route.params.title;
+  const {slug, isSearch} = route.params;
 
   useEffect(() => {
     flatListRef.current?.scrollToOffset({animated: false, offset: 0});
     setEntries([]);
-    getTopicEntries(slug, currentPage)
+    getTopicEntries(slug, currentPage, isSearch)
       .then(res => {
         setTotalPages(res.total_page);
         setEntries(
@@ -51,18 +51,6 @@ const Entries = () => {
 
   const RenderEntry = ({item}: {item: IEntry}) => <Entry entry={item} />;
 
-  const RenderHeader = () => (
-    <View style={{overflow: 'hidden', paddingBottom: 16}}>
-      <View
-        paddingH-18
-        style={shadows.primaryShadow}
-        backgroundColor={UIColors.darkMode}>
-        <Text marginB-12 center h3 textColor>
-          {title}{' '}
-        </Text>
-      </View>
-    </View>
-  );
   return (
     <View backgroundColor={UIColors.darkMode} flex-1>
       {entries.length ? (
@@ -71,8 +59,6 @@ const Entries = () => {
           data={entries}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{paddingBottom: 75}}
-          // ListHeaderComponent={RenderHeader}
-          // stickyHeaderIndices={[0]}
           renderItem={RenderEntry}
           keyExtractor={item => item.id}
           ListFooterComponent={

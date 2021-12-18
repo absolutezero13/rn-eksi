@@ -44,3 +44,15 @@ export interface AutoCompleteResults {
   Query: string;
   Titles: string[];
 }
+
+export interface SearchResults {
+  thread_count: number;
+  threads: Thread[];
+}
+
+interface Thread {
+  id: number;
+  title: string;
+  slug: string;
+  entry_count_total: number;
+}

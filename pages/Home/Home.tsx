@@ -2,16 +2,20 @@ import {useNavigation} from '@react-navigation/native';
 import React, {useEffect, useState} from 'react';
 import {FlatList} from 'react-native-gesture-handler';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {View, Image} from 'react-native-ui-lib';
+import {View, Image, Text} from 'react-native-ui-lib';
 import Loading from '../../components/Loading/Loading';
 import {Topic} from '../../services/interfaces';
-import {getTopics} from '../../services/services';
+import {getSearchResults, getTopics} from '../../services/services';
 import {UIColors} from '../../theme/colors';
 import {styles} from './Home.style';
 import eksiLogoWhite from '../../imgs/eksi-logo-white.png';
 import {shadows} from '../../theme/shadows';
 import TopicComponent from '../../components/Topic/Topic';
 import SearchInput from '../../components/SearchInput/SearchInput';
+import PressableOpacity from '../../components/PressableOpacityComponent/PressableOpacity';
+import {screenWidth} from '../../utils/constants';
+import {stringToSlug} from '../../utils/functions';
+import slugify from 'slugify';
 
 const Home = () => {
   const navigation = useNavigation();
@@ -24,18 +28,60 @@ const Home = () => {
     });
   }, []);
 
+  const [autoCompleteResults, setAutoCompleteResults] = React.useState<
+    string[] | []
+  >([]);
+
+  const DropDown = () => {
+    return (
+      <View width={screenWidth / 2} style={styles.dropDown}>
+        <FlatList
+          data={autoCompleteResults}
+          renderItem={({item}) => (
+            <PressableOpacity onPress={() => pressDropDownItem(item)}>
+              <Text style={{fontSize: 14}} regularText>
+                {item}{' '}
+              </Text>
+            </PressableOpacity>
+          )}
+        />
+      </View>
+    );
+  };
+
   const renderTopic = ({item}: {item: Topic}) => (
     <TopicComponent onPress={() => pressItem(item)} item={item} />
   );
 
   const pressItem = (item: Topic) => {
     console.log('press');
+    console.log('gündem slug', item.slug);
     navigation.navigate('Entries', {
       slug: item.slug,
       title: item.title,
+      isSearch: false,
     });
   };
 
+  const pressDropDownItem = (item: string) => {
+    setSearchValue(item);
+
+    getSearchResults(slugify(item)).then(res => {
+      console.log('SEARCH RESULTS', res);
+      try {
+        navigation.navigate('Entries', {
+          slug: res.threads[0].slug.replace('https://eksisozluk.com', ''),
+          title: res.threads[0].title,
+          isSearch: true,
+        });
+      } catch (e) {
+        console.log(e);
+      }
+    });
+    // navigation.navigate('Entries', {
+    //   slug: item,
+    // });
+  };
   return (
     <View backgroundColor={UIColors.darkMode} flex-1>
       <SafeAreaView
@@ -44,7 +90,7 @@ const Home = () => {
           paddingTop: 12,
         }}
       />
-      <View style={{overflow: 'hidden', paddingBottom: 12}}>
+      <View style={{paddingBottom: 12}}>
         <View
           row
           centerV
@@ -58,9 +104,15 @@ const Home = () => {
             style={styles.img}
             resizeMode="contain"
           />
-          <SearchInput setValue={setSearchValue} value={searchValue} />
+          <SearchInput
+            autoCompleteResults={autoCompleteResults}
+            setAutoCompleteResults={setAutoCompleteResults}
+            setValue={setSearchValue}
+            value={searchValue}
+          />
         </View>
       </View>
+      {autoCompleteResults?.length > 0 && <DropDown />}
 
       <View flex-1 paddingH-18>
         {hotTopics.length ? (
