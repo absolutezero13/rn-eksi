@@ -2,9 +2,10 @@ import {Alert} from 'react-native';
 import {navRef} from '../App';
 
 export const handleError = (error: any) => {
+  console.log(error);
   Alert.alert(
     'Hata',
-    error.message,
+    'Bir hata oluştu. Lütfen tekrar deneyin.',
     [
       {
         text: 'Tamam',

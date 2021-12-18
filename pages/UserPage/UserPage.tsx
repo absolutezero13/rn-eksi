@@ -20,7 +20,6 @@ const UserPage = () => {
   const [user, setUser] = useState<IUser>();
   const route = useRoute<RouteProp<RouteProps, 'params'>>();
 
-  console.log(route.params.nick);
   useEffect(() => {
     getUser(route.params?.nick).then(res => {
       setUser(res);

@@ -92,7 +92,7 @@ const Home = () => {
           data={autoCompleteResults}
           renderItem={({item}) => (
             <PressableOpacity onPress={() => pressDropDownItem(item)}>
-              <Text style={{fontSize: 14}} regularText>
+              <Text darkerTextColor style={{fontSize: 14}} regularText>
                 {item}{' '}
               </Text>
             </PressableOpacity>

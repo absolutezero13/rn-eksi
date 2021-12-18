@@ -8,10 +8,10 @@ import {NativeStackNavigationOptions} from '@react-navigation/native-stack';
 export const HeaderWithBackTitle = ({title}: {title: string}) => {
   const navigation = useNavigation();
   const HeaderOptions: NativeStackNavigationOptions = {
-    headerTitle: '',
     headerStyle: {
       backgroundColor: UIColors.darkMode,
     },
+    title: '',
     headerLeft: () => (
       <View
         style={{alignItems: 'center'}}

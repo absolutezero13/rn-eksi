@@ -32,9 +32,11 @@ const SearchInput = ({
         autoCorrect={false}
         onBlur={() => setAutoCompleteResults(undefined)}
         placeholder="başlık, entry, yazar"
-        placeholderTextColor={UIColors.darkerTextColor}
+        placeholderTextColor={UIColors.disabled}
         style={{
           fontFamily: 'SourceSansPro-SemiBold',
+          color: UIColors.darkerTextColor,
+          padding: 12,
         }}
         onChangeText={text => {
           setValue(text);

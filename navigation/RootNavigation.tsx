@@ -9,7 +9,10 @@ const Stack = createNativeStackNavigator();
 
 export const RootNavigation = () => {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator
+      screenOptions={{
+        statusBarAnimation: 'fade',
+      }}>
       <Stack.Screen
         name="Home"
         component={Home}
