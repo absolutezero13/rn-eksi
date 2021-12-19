@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import {Platform, StyleSheet} from 'react-native';
 import {UIColors} from '../../theme/colors';
 import {screenWidth} from '../../utils/constants';
 
@@ -9,7 +9,7 @@ export const styles = StyleSheet.create({
   },
   dropDown: {
     position: 'absolute',
-    top: 80,
+    top: Platform.OS === 'ios' ? 75 : 50,
     right: 5,
     backgroundColor: 'white',
     borderBottomWidth: 1,

@@ -15,7 +15,7 @@ const App = () => {
   return (
     <SafeAreaProvider>
       <NavigationContainer ref={navRef}>
-        <StatusBar barStyle="light-content" />
+        <StatusBar />
         <RootNavigation />
       </NavigationContainer>
     </SafeAreaProvider>

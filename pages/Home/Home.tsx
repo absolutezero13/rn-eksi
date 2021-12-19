@@ -1,7 +1,7 @@
 import {useNavigation} from '@react-navigation/native';
 import React, {useEffect, useState} from 'react';
 import {FlatList} from 'react-native-gesture-handler';
-import {SafeAreaView} from 'react-native-safe-area-context';
+import {SafeAreaView, useSafeAreaInsets} from 'react-native-safe-area-context';
 import {View, Image, Text} from 'react-native-ui-lib';
 import Loading from '../../components/Loading/Loading';
 import {Debe, Topic} from '../../services/interfaces';
@@ -15,6 +15,7 @@ import SearchInput from '../../components/SearchInput/SearchInput';
 import PressableOpacity from '../../components/PressableOpacityComponent/PressableOpacity';
 import {screenWidth} from '../../utils/constants';
 import slugify from 'slugify';
+import {StyleSheet, TextInput} from 'react-native';
 
 const Home = () => {
   const navigation = useNavigation();
@@ -22,6 +23,10 @@ const Home = () => {
   const [searchValue, setSearchValue] = useState<string>('');
   const [selectedTopicFilter, setSelectedTopicFilter] =
     useState<string>('agenda');
+  const [autoCompleteResults, setAutoCompleteResults] = React.useState<
+    string[] | []
+  >([]);
+  const inputRef = React.useRef<TextInput>(null);
 
   useEffect(() => {
     setTopics([]);
@@ -35,10 +40,6 @@ const Home = () => {
       });
     }
   }, [navigation, selectedTopicFilter]);
-
-  const [autoCompleteResults, setAutoCompleteResults] = React.useState<
-    string[] | []
-  >([]);
 
   const pressItem = (item: Topic) => {
     if (selectedTopicFilter === 'agenda') {
@@ -56,6 +57,8 @@ const Home = () => {
 
   const pressDropDownItem = (item: string) => {
     setSearchValue(item);
+    setAutoCompleteResults([]);
+    inputRef.current.blur();
     if (item.startsWith('@')) {
       const nick = item.slice(1, item.length);
 
@@ -70,7 +73,6 @@ const Home = () => {
             console.log('COMPARING', thread.title, item);
             return thread.title === item;
           });
-
           navigation.navigate('Entries', {
             slug: thread
               ? thread.slug.replace('https://eksisozluk.com', '')
@@ -102,7 +104,7 @@ const Home = () => {
     );
   };
 
-  const renderTopic = ({item}: {item: Topic}) => (
+  const renderTopic = ({item}: {item: Topic | Debe}) => (
     <TopicComponent onPress={() => pressItem(item)} item={item} />
   );
 
@@ -137,20 +139,23 @@ const Home = () => {
             resizeMode="contain"
           />
           <SearchInput
+            inputRef={inputRef}
             autoCompleteResults={autoCompleteResults}
             setAutoCompleteResults={setAutoCompleteResults}
             setValue={setSearchValue}
             value={searchValue}
           />
         </View>
-        <View
-          paddingB-12
-          backgroundColor={UIColors.darkMode}
-          style={shadows.primaryShadow}
-          centerH
-          row>
-          <TopicLink value="agenda" text="Gündem" />
-          <TopicLink value="debe" text="Debe" />
+        <View style={{overflow: 'hidden', paddingBottom: 12}}>
+          <View
+            paddingB-12
+            backgroundColor={UIColors.darkMode}
+            style={shadows.primaryShadow}
+            centerH
+            row>
+            <TopicLink value="agenda" text="Gündem" />
+            <TopicLink value="debe" text="Debe" />
+          </View>
         </View>
       </View>
       {autoCompleteResults?.length > 0 && <DropDown />}
@@ -158,6 +163,7 @@ const Home = () => {
       <View flex-1 paddingH-18>
         {topics.length ? (
           <FlatList
+            keyboardShouldPersistTaps="never"
             showsVerticalScrollIndicator={false}
             contentContainerStyle={{paddingBottom: 40}}
             style={{flex: 1}}
