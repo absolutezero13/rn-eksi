@@ -38,10 +38,12 @@ const SearchInput = ({
     if (val.length > 1) {
       const res = await autoComplete(val);
 
-      setAutoCompleteResults([
-        ...res?.Titles,
-        ...res?.Nicks.map(nick => '@' + nick),
-      ]);
+      if (val) {
+        setAutoCompleteResults([
+          ...res?.Titles,
+          ...res?.Nicks.map(nick => '@' + nick),
+        ]);
+      }
     } else {
       setAutoCompleteResults([]);
     }

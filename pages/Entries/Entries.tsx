@@ -1,7 +1,8 @@
 import {RouteProp, useRoute} from '@react-navigation/native';
 import React, {useEffect, useState} from 'react';
+import {Linking} from 'react-native';
 import {FlatList} from 'react-native-gesture-handler';
-import {View} from 'react-native-ui-lib';
+import {Text, View} from 'react-native-ui-lib';
 import Entry from '../../components/Entry/Entry';
 import Hr from '../../components/Hr/Hr';
 import Loading from '../../components/Loading/Loading';
@@ -25,7 +26,7 @@ const Entries = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const route = useRoute<RouteProp<RouteProps, 'params'>>();
   const {slug, isSearch} = route.params;
-
+  console.log(entries[0]);
   useEffect(() => {
     flatListRef.current?.scrollToOffset({animated: false, offset: 0});
     setEntries([]);

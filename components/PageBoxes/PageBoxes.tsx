@@ -36,15 +36,17 @@ const PageBoxes = ({totalPages, currentPage, setCurrentPage}: IProps) => {
           style={[styles.flat, {width: totalPages.toString().length * 24}]}
           contentContainerStyle={styles.flatContainer}
           renderItem={({item, index}) => (
-            <Text
-              regularText
-              color={currentPage === index + 1 ? 'white' : 'gray'}
-              onPress={() => {
-                setCurrentPage(index + 1);
-                setDropDownVisible(false);
-              }}>
-              {index + 1}
-            </Text>
+            <PressableOpacity>
+              <Text
+                regularText
+                color={currentPage === index + 1 ? 'white' : 'gray'}
+                onPress={() => {
+                  setCurrentPage(index + 1);
+                  setDropDownVisible(false);
+                }}>
+                {index + 1}
+              </Text>
+            </PressableOpacity>
           )}
         />
       </View>

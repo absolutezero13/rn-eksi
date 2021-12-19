@@ -2,11 +2,14 @@ import React, {useState} from 'react';
 import {Image, Text, View} from 'react-native-ui-lib';
 import {IEntry} from '../../services/interfaces';
 import {UIColors} from '../../theme/colors';
-import HTML from 'react-native-render-html';
+import {RenderHTML} from 'react-native-render-html';
 import whiteDrop from '../../imgs/white-drop.png';
 import {screenWidth} from '../../utils/constants';
-import {useNavigation} from '@react-navigation/native';
+import {StackActions, useNavigation} from '@react-navigation/native';
 import PressableOpacity from '../PressableOpacityComponent/PressableOpacity';
+import {Linking} from 'react-native';
+import {getSearchResults} from '../../services/services';
+import slugify from 'slugify';
 
 const systemFonts = ['SourceSansPro-SemiBold'];
 
@@ -30,10 +33,44 @@ const Entry = ({entry}: {entry: IEntry}) => {
     setShowFullEntry(true);
   };
 
+  const RendererProps = {
+    a: {
+      onPress: (e, href: string) => {
+        if (href.startsWith('about:///')) {
+          const text =
+            e.target._internalFiberInstanceHandleDEV._debugOwner.memoizedProps
+              .children;
+          getSearchResults(slugify(text)).then(res => {
+            console.log('SEARCH RESULTS', res);
+
+            const thread: any = res.threads.find(thread => {
+              console.log('COMPARING', thread.title, text);
+              return thread.title === text;
+            });
+            navigation.dispatch(
+              StackActions.push('Entries', {
+                slug: thread
+                  ? thread.slug.replace('https://eksisozluk.com', '')
+                  : res.threads[0].slug.replace('https://eksisozluk.com', ''),
+                title: thread ? thread.title : res.threads[0].title,
+                isSearch: true,
+              }),
+            );
+          });
+        } else {
+          Linking.openURL(href);
+        }
+      },
+    },
+  };
+
   return (
     <View paddingH-16>
       <View marginB-6>
-        <HTML
+        <RenderHTML
+          htmlParserOptions={{
+            decodeEntities: true,
+          }}
           source={{
             html:
               entry.body.length > 400 && !showFullEntry
@@ -41,6 +78,7 @@ const Entry = ({entry}: {entry: IEntry}) => {
                 : entry.body,
           }}
           contentWidth={screenWidth}
+          renderersProps={RendererProps}
           tagsStyles={tagStyles}
           systemFonts={systemFonts}
         />
