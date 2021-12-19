@@ -1,7 +1,7 @@
 import {useNavigation} from '@react-navigation/native';
 import React, {useEffect, useState} from 'react';
 import {FlatList} from 'react-native-gesture-handler';
-import {SafeAreaView, useSafeAreaInsets} from 'react-native-safe-area-context';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import {View, Image, Text} from 'react-native-ui-lib';
 import Loading from '../../components/Loading/Loading';
 import {Debe, Topic} from '../../services/interfaces';
@@ -15,7 +15,7 @@ import SearchInput from '../../components/SearchInput/SearchInput';
 import PressableOpacity from '../../components/PressableOpacityComponent/PressableOpacity';
 import {screenWidth} from '../../utils/constants';
 import slugify from 'slugify';
-import {StyleSheet, TextInput} from 'react-native';
+import {TextInput} from 'react-native';
 
 const Home = () => {
   const navigation = useNavigation();
@@ -58,7 +58,7 @@ const Home = () => {
   const pressDropDownItem = (item: string) => {
     setSearchValue(item);
     setAutoCompleteResults([]);
-    inputRef.current.blur();
+    inputRef?.current.blur();
     if (item.startsWith('@')) {
       const nick = item.slice(1, item.length);
 

@@ -5,7 +5,7 @@ import {borderStyles, styles} from './SearchInput.style';
 import {autoComplete} from '../../services/services';
 import {UIColors} from '../../theme/colors';
 import {screenWidth} from '../../utils/constants';
-import {Keyboard, StyleSheet} from 'react-native';
+import {Keyboard} from 'react-native';
 
 interface Props {
   value: string;

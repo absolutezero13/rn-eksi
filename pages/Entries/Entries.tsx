@@ -9,6 +9,7 @@ import PageBoxes from '../../components/PageBoxes/PageBoxes';
 import {IEntry} from '../../services/interfaces';
 import {getTopicEntries} from '../../services/services';
 import {UIColors} from '../../theme/colors';
+import {shadows} from '../../theme/shadows';
 
 type RouteProps = {
   params: {
@@ -45,8 +46,6 @@ const Entries = () => {
       });
   }, [currentPage]);
 
-  console.log({entries});
-
   const RenderEntry = ({item}: {item: IEntry}) => <Entry entry={item} />;
 
   return (
@@ -59,18 +58,20 @@ const Entries = () => {
           contentContainerStyle={{paddingBottom: 75}}
           renderItem={RenderEntry}
           keyExtractor={item => item.id}
-          ListFooterComponent={
-            <PageBoxes
-              currentPage={currentPage}
-              totalPages={totalPages}
-              setCurrentPage={setCurrentPage}
-            />
-          }
           ItemSeparatorComponent={() => <Hr />}
         />
       ) : (
         <Loading />
       )}
+      {entries.length ? (
+        <View paddingB-24 centerH centerV>
+          <PageBoxes
+            currentPage={currentPage}
+            totalPages={totalPages}
+            setCurrentPage={setCurrentPage}
+          />
+        </View>
+      ) : null}
     </View>
   );
 };

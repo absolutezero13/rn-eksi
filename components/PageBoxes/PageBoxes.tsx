@@ -33,7 +33,7 @@ const PageBoxes = ({totalPages, currentPage, setCurrentPage}: IProps) => {
         }}>
         <FlatList
           data={Array(totalPages).fill(0)}
-          style={{height: 100, width: totalPages.toString().length * 16}}
+          style={[styles.flat, {width: totalPages.toString().length * 24}]}
           contentContainerStyle={styles.flatContainer}
           renderItem={({item, index}) => (
             <Text
