@@ -27,7 +27,8 @@
     "react-native-screens": "^3.10.1",
     "react-native-ui-lib": "^6.5.4",
     "react-native-vector-icons": "^9.0.0",
-    "slugify": "^1.6.4"
+    "slugify": "^1.6.4",
+    "use-debounce": "^7.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

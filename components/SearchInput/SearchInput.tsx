@@ -6,6 +6,7 @@ import {autoComplete} from '../../services/services';
 import {UIColors} from '../../theme/colors';
 import {screenWidth} from '../../utils/constants';
 import {Keyboard} from 'react-native';
+import {useDebouncedCallback} from 'use-debounce/lib';
 
 interface Props {
   value: string;
@@ -33,21 +34,23 @@ const SearchInput = ({
     });
   }, []);
 
-  const searchAutoCompleteResults = async (val: string) => {
-    setValue(val);
-    if (val.length > 1) {
-      const res = await autoComplete(val);
+  const searchAutoCompleteResults = useDebouncedCallback(
+    async (val: string) => {
+      if (val.length > 1) {
+        const res = await autoComplete(val);
 
-      if (val) {
-        setAutoCompleteResults([
-          ...res?.Titles,
-          ...res?.Nicks.map(nick => '@' + nick),
-        ]);
+        if (val) {
+          setAutoCompleteResults([
+            ...res?.Titles,
+            ...res?.Nicks.map(nick => '@' + nick),
+          ]);
+        }
+      } else {
+        setAutoCompleteResults([]);
       }
-    } else {
-      setAutoCompleteResults([]);
-    }
-  };
+    },
+    500,
+  );
 
   const onFocus = () => searchAutoCompleteResults(value);
 
@@ -73,7 +76,10 @@ const SearchInput = ({
         placeholder="başlık, entry, yazar"
         placeholderTextColor={UIColors.disabled}
         style={styles.input}
-        onChangeText={searchAutoCompleteResults}
+        onChangeText={val => {
+          setValue(val);
+          searchAutoCompleteResults(val);
+        }}
       />
     </View>
   );
