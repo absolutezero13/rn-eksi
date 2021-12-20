@@ -15,12 +15,13 @@ import SearchInput from '../../components/SearchInput/SearchInput';
 import PressableOpacity from '../../components/PressableOpacityComponent/PressableOpacity';
 import {screenWidth} from '../../utils/constants';
 import slugify from 'slugify';
-import {TextInput} from 'react-native';
+import {RefreshControl, TextInput} from 'react-native';
 
 const Home = () => {
   const navigation = useNavigation();
   const [topics, setTopics] = useState<Topic[] | Debe[]>([]);
   const [searchValue, setSearchValue] = useState<string>('');
+  const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
   const [selectedTopicFilter, setSelectedTopicFilter] =
     useState<string>('agenda');
   const [autoCompleteResults, setAutoCompleteResults] = React.useState<
@@ -83,6 +84,21 @@ const Home = () => {
         } catch (e) {
           console.log(e);
         }
+      });
+    }
+  };
+
+  const onRefresh = () => {
+    setIsRefreshing(true);
+    if (selectedTopicFilter === 'agenda') {
+      getTopics().then(res => {
+        setTopics(res);
+        setIsRefreshing(false);
+      });
+    } else {
+      getDebe().then(res => {
+        setTopics(res.entries);
+        setIsRefreshing(false);
       });
     }
   };
@@ -169,6 +185,13 @@ const Home = () => {
             style={{flex: 1}}
             initialNumToRender={50}
             data={topics}
+            refreshControl={
+              <RefreshControl
+                refreshing={isRefreshing}
+                onRefresh={onRefresh}
+                colors={[UIColors.eksiGreen, UIColors.textColor]}
+              />
+            }
             renderItem={renderTopic}
             keyExtractor={item => item.id.toString()}
           />
