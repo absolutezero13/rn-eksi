@@ -1,12 +1,19 @@
-import {RouteProp, useRoute} from '@react-navigation/native';
+import {
+  RouteProp,
+  StackActions,
+  useNavigation,
+  useRoute,
+} from '@react-navigation/native';
 import React, {useEffect, useState} from 'react';
 import {ScrollView} from 'react-native-gesture-handler';
 import HTML from 'react-native-render-html';
 import {Image, Text, View} from 'react-native-ui-lib';
+import slugify from 'slugify';
 import {tagStyles} from '../../components/Entry/Entry';
 import Loading from '../../components/Loading/Loading';
+import PressableOpacity from '../../components/PressableOpacityComponent/PressableOpacity';
 import {IUser} from '../../services/interfaces';
-import {getUser} from '../../services/services';
+import {getSearchResults, getUser} from '../../services/services';
 import {UIColors} from '../../theme/colors';
 import {screenWidth} from '../../utils/constants';
 
@@ -19,12 +26,32 @@ type RouteProps = {
 const UserPage = () => {
   const [user, setUser] = useState<IUser>();
   const route = useRoute<RouteProp<RouteProps, 'params'>>();
+  const navigation = useNavigation();
 
   useEffect(() => {
     getUser(route.params?.nick).then(res => {
       setUser(res);
     });
   }, []);
+
+  const goToNickEntries = () =>
+    getSearchResults(slugify(route.params.nick)).then(res => {
+      console.log('SEARCH RESULTS', res);
+
+      const thread: any = res.threads.find(thread => {
+        console.log('COMPARING', thread.title, route.params.nick);
+        return thread.title === route.params.nick;
+      });
+      navigation.dispatch(
+        StackActions.push('Entries', {
+          slug: thread
+            ? thread.slug.replace('https://eksisozluk.com', '')
+            : res.threads[0].slug.replace('https://eksisozluk.com', ''),
+          title: thread ? thread.title : res.threads[0].title,
+          isSearch: true,
+        }),
+      );
+    });
 
   return (
     <View paddingH-16 backgroundColor={UIColors.darkMode} flex-1>
@@ -66,6 +93,17 @@ const UserPage = () => {
             toplam entry:
             <Text eksiGreen> {user?.entry_count_total}</Text>
           </Text>
+          <PressableOpacity
+            onPress={goToNickEntries}
+            style={{flexDirection: 'row', alignItems: 'center', marginTop: 12}}>
+            <Text smallerText textColor>
+              Nick altına git
+            </Text>
+            <Image
+              style={{width: 20, height: 20}}
+              source={require('../../imgs/nextIcon.png')}
+            />
+          </PressableOpacity>
         </ScrollView>
       ) : (
         <Loading />

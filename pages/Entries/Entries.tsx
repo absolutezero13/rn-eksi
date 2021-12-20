@@ -1,8 +1,7 @@
 import {RouteProp, useRoute} from '@react-navigation/native';
 import React, {useEffect, useState} from 'react';
-import {Linking} from 'react-native';
 import {FlatList} from 'react-native-gesture-handler';
-import {Text, View} from 'react-native-ui-lib';
+import {View} from 'react-native-ui-lib';
 import Entry from '../../components/Entry/Entry';
 import Hr from '../../components/Hr/Hr';
 import Loading from '../../components/Loading/Loading';
@@ -10,7 +9,6 @@ import PageBoxes from '../../components/PageBoxes/PageBoxes';
 import {IEntry} from '../../services/interfaces';
 import {getTopicEntries} from '../../services/services';
 import {UIColors} from '../../theme/colors';
-import {shadows} from '../../theme/shadows';
 
 type RouteProps = {
   params: {

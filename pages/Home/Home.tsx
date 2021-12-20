@@ -42,7 +42,7 @@ const Home = () => {
     }
   }, [navigation, selectedTopicFilter]);
 
-  const pressItem = (item: Topic) => {
+  const pressItem = (item: Topic | Debe) => {
     if (selectedTopicFilter === 'agenda') {
       navigation.navigate('Entries', {
         slug: item.slug,

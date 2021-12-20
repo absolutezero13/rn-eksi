@@ -40,6 +40,7 @@ const Entry = ({entry}: {entry: IEntry}) => {
           const text =
             e.target._internalFiberInstanceHandleDEV._debugOwner.memoizedProps
               .children;
+
           getSearchResults(slugify(text)).then(res => {
             console.log('SEARCH RESULTS', res);
 

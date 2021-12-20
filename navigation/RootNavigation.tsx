@@ -5,7 +5,15 @@ import Entries from '../pages/Entries/Entries';
 import UserPage from '../pages/UserPage/UserPage';
 import {HeaderWithBackTitle} from './headers';
 import DebeEntry from '../pages/DebeEntry/DebeEntry';
-const Stack = createNativeStackNavigator();
+import {Debe} from '../services/interfaces';
+
+type RootStackParamList = {
+  Home: undefined;
+  Entries: undefined;
+  UserPage: undefined;
+  DebeEntry: {debe: Debe};
+};
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export const RootNavigation = () => {
   return (
