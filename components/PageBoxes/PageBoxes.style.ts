@@ -4,6 +4,7 @@ import {UIColors} from '../../theme/colors';
 export const styles = StyleSheet.create({
   box: {
     height: 30,
+    width: 40,
     backgroundColor: UIColors.darkMode,
     borderWidth: 1,
     borderColor: UIColors.textColor,

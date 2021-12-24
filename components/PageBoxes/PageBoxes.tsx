@@ -65,18 +65,15 @@ const PageBoxes = ({totalPages, currentPage, setCurrentPage}: IProps) => {
           </PressableOpacity>
         </View>
       )}
-      <View>
-        {dropDownVisible && <DropDown />}
-        <View style={styles.box}>
-          <Text
-            regularText
-            textColor
-            onPress={() => setDropDownVisible(!dropDownVisible)}>
-            {currentPage}{' '}
-          </Text>
-        </View>
+      {dropDownVisible && <DropDown />}
+      <View style={styles.box}>
+        <Text
+          regularText
+          textColor
+          onPress={() => setDropDownVisible(!dropDownVisible)}>
+          {currentPage}{' '}
+        </Text>
       </View>
-
       <View centerV>
         <Text regularText textColor marginH-3>
           /

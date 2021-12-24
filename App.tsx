@@ -8,17 +8,19 @@ import {
 } from '@react-navigation/native';
 import {StatusBar} from 'react-native';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
+import {ContextProvider} from './pages/context/context';
 
 export const navRef = createNavigationContainerRef();
 
 const App = () => {
   return (
-    <SafeAreaProvider>
-      <NavigationContainer ref={navRef}>
-        <StatusBar />
-        <RootNavigation />
-      </NavigationContainer>
-    </SafeAreaProvider>
+    <ContextProvider>
+      <SafeAreaProvider>
+        <NavigationContainer ref={navRef}>
+          <RootNavigation />
+        </NavigationContainer>
+      </SafeAreaProvider>
+    </ContextProvider>
   );
 };
 export default App;
