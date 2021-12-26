@@ -103,6 +103,14 @@ const Home = () => {
     }
   };
 
+  const onFavPress = () => {
+    navigation.navigate('Entries', {
+      // slug: item.slug,
+      title: 'Favoriler',
+      isFav: true,
+    });
+  };
+
   const DropDown = () => {
     return (
       <View width={screenWidth / 2} style={styles.dropDown}>
@@ -171,6 +179,7 @@ const Home = () => {
             row>
             <TopicLink value="agenda" text="Gündem" />
             <TopicLink value="debe" text="Debe" />
+            <Text onPress={onFavPress}>Favssss</Text>
           </View>
         </View>
       </View>

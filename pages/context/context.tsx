@@ -13,7 +13,7 @@ export const ContextProvider = ({children}) => {
   const [favoriteEntries, setFavoriteEntries] = useState<IEntry[]>([]);
 
   useEffect(() => {
-    AsyncStorage.getItem('favoriteEntries').then(res => {
+    AsyncStorage.getItem('favorites').then(res => {
       if (res) {
         setFavoriteEntries(JSON.parse(res));
         console.log('favorites fetched', JSON.parse(res));
@@ -22,7 +22,12 @@ export const ContextProvider = ({children}) => {
   }, []);
 
   useEffect(() => {
-    console.log('favorites updated', favoriteEntries);
+    console.log(
+      'favorites updated',
+      favoriteEntries,
+      typeof favoriteEntries,
+      favoriteEntries.length,
+    );
   }, [favoriteEntries]);
 
   return (

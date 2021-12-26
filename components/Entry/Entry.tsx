@@ -27,61 +27,50 @@ export const tagStyles = {
   },
 };
 
-const Entry = ({entry}: {entry: IEntry}) => {
+const RendererProps = nav => ({
+  a: {
+    onPress: (e, href: string) => {
+      if (href.startsWith('about:///')) {
+        const text =
+          e.target._internalFiberInstanceHandleDEV._debugOwner.memoizedProps
+            .children;
+
+        getSearchResults(slugify(text)).then(res => {
+          console.log('SEARCH RESULTS', res);
+
+          const thread: any = res.threads.find(thread => {
+            console.log('COMPARING', thread.title, text);
+            return thread.title === text;
+          });
+          nav.dispatch(
+            StackActions.push('Entries', {
+              slug: thread
+                ? thread.slug.replace('https://eksisozluk.com', '')
+                : res.threads[0].slug.replace('https://eksisozluk.com', ''),
+              title: thread ? thread.title : res.threads[0].title,
+              isSearch: true,
+            }),
+          );
+        });
+      } else {
+        Linking.openURL(href);
+      }
+    },
+  },
+});
+
+const Entry = React.memo(function Entry({entry}: {entry: IEntry}) {
   const navigation = useNavigation();
   const [showFullEntry, setShowFullEntry] = useState(false);
-  const [isFavorite, setIsFavorite] = useState(false);
   const {favoriteEntries, setFavoriteEntries} = useContext(Context);
 
   const handleShowFullEntry = () => {
     setShowFullEntry(true);
   };
 
-  const RendererProps = {
-    a: {
-      onPress: (e, href: string) => {
-        if (href.startsWith('about:///')) {
-          const text =
-            e.target._internalFiberInstanceHandleDEV._debugOwner.memoizedProps
-              .children;
-
-          getSearchResults(slugify(text)).then(res => {
-            console.log('SEARCH RESULTS', res);
-
-            const thread: any = res.threads.find(thread => {
-              console.log('COMPARING', thread.title, text);
-              return thread.title === text;
-            });
-            navigation.dispatch(
-              StackActions.push('Entries', {
-                slug: thread
-                  ? thread.slug.replace('https://eksisozluk.com', '')
-                  : res.threads[0].slug.replace('https://eksisozluk.com', ''),
-                title: thread ? thread.title : res.threads[0].title,
-                isSearch: true,
-              }),
-            );
-          });
-        } else {
-          Linking.openURL(href);
-        }
-      },
-    },
-  };
-
-  useEffect(() => {
-    const isItFavorite = favoriteEntries.find(e => {
-      console.log(e.id, '------', entry.id);
-
-      return e.id === entry.id;
-    });
-
-    if (isItFavorite) {
-      setIsFavorite(true);
-    } else {
-      setIsFavorite(false);
-    }
-  }, [favoriteEntries]);
+  const isFavorite = favoriteEntries.find(e => {
+    return e.id === entry.id;
+  });
 
   const onFavoritePress = async () => {
     if (favoriteEntries.length > 0) {
@@ -100,8 +89,6 @@ const Entry = ({entry}: {entry: IEntry}) => {
       AsyncStorage.setItem('favorites', JSON.stringify([entry]));
       setFavoriteEntries([entry]);
     }
-
-    console.log('FAVORITE PRESSED');
   };
 
   return (
@@ -118,7 +105,7 @@ const Entry = ({entry}: {entry: IEntry}) => {
                 : entry.body,
           }}
           contentWidth={screenWidth}
-          renderersProps={RendererProps}
+          renderersProps={RendererProps(navigation)}
           tagsStyles={tagStyles}
           systemFonts={systemFonts}
         />
@@ -154,6 +141,6 @@ const Entry = ({entry}: {entry: IEntry}) => {
       </View>
     </View>
   );
-};
+});
 
 export default Entry;
