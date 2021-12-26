@@ -9,6 +9,7 @@ import {getDebe, getSearchResults, getTopics} from '../../services/services';
 import {UIColors} from '../../theme/colors';
 import {styles, topicLinkStyles} from './Home.style';
 import eksiLogoWhite from '../../imgs/eksi-logo-white.png';
+import nextIcon from '../../imgs/nextIcon.png';
 import {shadows} from '../../theme/shadows';
 import TopicComponent from '../../components/Topic/Topic';
 import SearchInput from '../../components/SearchInput/SearchInput';
@@ -176,10 +177,18 @@ const Home = () => {
             backgroundColor={UIColors.darkMode}
             style={shadows.primaryShadow}
             centerH
+            marginT-12
             row>
             <TopicLink value="agenda" text="Gündem" />
             <TopicLink value="debe" text="Debe" />
-            <Text onPress={onFavPress}>Favssss</Text>
+            <PressableOpacity
+              onPress={onFavPress}
+              style={{alignSelf: 'flex-end', flexDirection: 'row'}}>
+              <Text regularText textColor>
+                Favoriler
+              </Text>
+              <Image width={24} height={24} source={nextIcon} />
+            </PressableOpacity>
           </View>
         </View>
       </View>

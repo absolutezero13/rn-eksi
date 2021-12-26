@@ -59,7 +59,15 @@ const RendererProps = nav => ({
   },
 });
 
-const Entry = React.memo(function Entry({entry}: {entry: IEntry}) {
+const Entry = React.memo(function Entry({
+  entry,
+  isFav,
+  title,
+}: {
+  entry: IEntry;
+  isFav: boolean;
+  title: string;
+}) {
   const navigation = useNavigation();
   const [showFullEntry, setShowFullEntry] = useState(false);
   const {favoriteEntries, setFavoriteEntries} = useContext(Context);
@@ -81,19 +89,24 @@ const Entry = React.memo(function Entry({entry}: {entry: IEntry}) {
         AsyncStorage.setItem('favorites', JSON.stringify(newFavs));
         setFavoriteEntries(JSON.parse(newFavs));
       } else {
-        const newFavs = JSON.stringify([...favoriteEntries, entry]);
+        const newFavs = JSON.stringify([...favoriteEntries, {...entry, title}]);
         AsyncStorage.setItem('favorites', JSON.stringify(JSON.parse(newFavs)));
         setFavoriteEntries(JSON.parse(newFavs));
       }
     } else {
-      AsyncStorage.setItem('favorites', JSON.stringify([entry]));
-      setFavoriteEntries([entry]);
+      AsyncStorage.setItem('favorites', JSON.stringify([{...entry, title}]));
+      setFavoriteEntries([{...entry, title}]);
     }
   };
 
   return (
     <View paddingH-16>
       <View marginB-6>
+        {isFav && (
+          <Text marginB-24 marginT-24 h3 textColor>
+            {entry.title}
+          </Text>
+        )}
         <RenderHTML
           htmlParserOptions={{
             decodeEntities: true,

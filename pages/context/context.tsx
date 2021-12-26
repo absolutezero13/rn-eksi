@@ -13,12 +13,26 @@ export const ContextProvider = ({children}) => {
   const [favoriteEntries, setFavoriteEntries] = useState<IEntry[]>([]);
 
   useEffect(() => {
-    AsyncStorage.getItem('favorites').then(res => {
-      if (res) {
-        setFavoriteEntries(JSON.parse(res));
-        console.log('favorites fetched', JSON.parse(res));
-      }
-    });
+    AsyncStorage.getItem('favorites')
+      .then(res => {
+        console.log('favs res', JSON.parse(res));
+
+        if (res) {
+          const parsedArr = JSON.parse(res);
+
+          if (typeof parsedArr === 'string') {
+            setFavoriteEntries([]);
+          } else {
+            const parsedArr2 = JSON.parse(res);
+            setFavoriteEntries(parsedArr2);
+          }
+
+          console.log('favorites fetched', typeof parsedArr);
+        }
+      })
+      .catch(err => {
+        console.log('favs err', err);
+      });
   }, []);
 
   useEffect(() => {

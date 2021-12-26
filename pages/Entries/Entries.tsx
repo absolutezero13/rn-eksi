@@ -1,7 +1,7 @@
 import {RouteProp, useRoute} from '@react-navigation/native';
 import React, {useContext, useEffect, useState} from 'react';
 import {FlatList} from 'react-native-gesture-handler';
-import {View} from 'react-native-ui-lib';
+import {Text, View} from 'react-native-ui-lib';
 import Entry from '../../components/Entry/Entry';
 import Hr from '../../components/Hr/Hr';
 import Loading from '../../components/Loading/Loading';
@@ -31,6 +31,12 @@ const Entries = () => {
   useEffect(() => {
     if (isFav) {
       setEntries(favoriteEntries);
+    }
+  }, [favoriteEntries]);
+
+  useEffect(() => {
+    if (isFav) {
+      setEntries(favoriteEntries);
     } else {
       flatListRef.current?.scrollToOffset({animated: false, offset: 0});
       setEntries([]);
@@ -52,7 +58,9 @@ const Entries = () => {
     }
   }, [currentPage]);
 
-  const RenderEntry = ({item}: {item: IEntry}) => <Entry entry={item} />;
+  const RenderEntry = ({item}: {item: IEntry}) => (
+    <Entry isFav={isFav} title={route.params.title} entry={item} />
+  );
 
   return (
     <View backgroundColor={UIColors.darkMode} flex-1>
@@ -66,6 +74,17 @@ const Entries = () => {
           keyExtractor={item => item.id}
           ItemSeparatorComponent={() => <Hr />}
         />
+      ) : isFav ? (
+        <View
+          centerH
+          centerV
+          flex-1
+          marginB-24
+          style={{maxWidth: '80%', alignSelf: 'center'}}>
+          <Text center h3 textColor>
+            yok ki öyle bi şey.
+          </Text>
+        </View>
       ) : (
         <Loading />
       )}
