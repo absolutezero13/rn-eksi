@@ -177,7 +177,6 @@ const Home = () => {
             backgroundColor={UIColors.darkMode}
             style={shadows.primaryShadow}
             centerH
-            marginT-12
             row>
             <TopicLink value="agenda" text="Gündem" />
             <TopicLink value="debe" text="Debe" />

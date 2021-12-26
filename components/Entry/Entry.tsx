@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {Image, Text, View} from 'react-native-ui-lib';
 import {IEntry} from '../../services/interfaces';
 import {UIColors} from '../../theme/colors';
@@ -7,7 +7,7 @@ import whiteDrop from '../../imgs/white-drop.png';
 import {screenWidth} from '../../utils/constants';
 import {StackActions, useNavigation} from '@react-navigation/native';
 import PressableOpacity from '../PressableOpacityComponent/PressableOpacity';
-import {Linking} from 'react-native';
+import {Alert, Linking} from 'react-native';
 import {getSearchResults} from '../../services/services';
 import slugify from 'slugify';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -31,6 +31,7 @@ const RendererProps = nav => ({
   a: {
     onPress: (e, href: string) => {
       if (href.startsWith('about:///')) {
+        console.log('event', e.target);
         const text =
           e.target._internalFiberInstanceHandleDEV._debugOwner.memoizedProps
             .children;
@@ -39,7 +40,6 @@ const RendererProps = nav => ({
           console.log('SEARCH RESULTS', res);
 
           const thread: any = res.threads.find(thread => {
-            console.log('COMPARING', thread.title, text);
             return thread.title === text;
           });
           nav.dispatch(
@@ -83,11 +83,39 @@ const Entry = React.memo(function Entry({
   const onFavoritePress = async () => {
     if (favoriteEntries.length > 0) {
       if (isFavorite) {
-        const newFavs = JSON.stringify(
-          favoriteEntries.filter(e => e.id !== entry.id),
+        Alert.alert(
+          'favorilerden çıkarılsın mı?',
+          '',
+          [
+            {
+              text: 'Çıkart',
+              onPress: async () => {
+                const newFavoriteEntries = favoriteEntries.filter(e => {
+                  return e.id !== entry.id;
+                });
+                await AsyncStorage.setItem(
+                  'favoriteEntries',
+                  JSON.stringify(newFavoriteEntries),
+                );
+                setFavoriteEntries(newFavoriteEntries);
+              },
+            },
+            {
+              text: 'Vazgeç',
+              onPress: () => {
+                console.log('Cancel Pressed');
+              },
+              style: 'cancel',
+            },
+          ],
+          {cancelable: false},
         );
-        AsyncStorage.setItem('favorites', JSON.stringify(newFavs));
-        setFavoriteEntries(JSON.parse(newFavs));
+
+        // const newFavs = JSON.stringify(
+        //   favoriteEntries.filter(e => e.id !== entry.id),
+        // );
+        // AsyncStorage.setItem('favorites', JSON.stringify(newFavs));
+        // setFavoriteEntries(JSON.parse(newFavs));
       } else {
         const newFavs = JSON.stringify([...favoriteEntries, {...entry, title}]);
         AsyncStorage.setItem('favorites', JSON.stringify(JSON.parse(newFavs)));
