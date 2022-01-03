@@ -36,22 +36,37 @@ const RendererProps = nav => ({
           e.target._internalFiberInstanceHandleDEV._debugOwner.memoizedProps
             .children;
 
-        getSearchResults(slugify(text)).then(res => {
-          console.log('SEARCH RESULTS', res);
+        getSearchResults(slugify(text))
+          .then(res => {
+            console.log('SEARCH RESULTS', res);
 
-          const thread: any = res.threads.find(thread => {
-            return thread.title === text;
+            if (res) {
+              const thread: any = res.threads.find(thread => {
+                return thread.title === text;
+              });
+              if (thread) {
+                nav.dispatch(
+                  StackActions.push('Entries', {
+                    slug: thread
+                      ? thread.slug.replace('https://eksisozluk.com', '')
+                      : res.threads[0].slug.replace(
+                          'https://eksisozluk.com',
+                          '',
+                        ),
+                    title: thread ? thread.title : res.threads[0].title,
+                    isSearch: true,
+                  }),
+                );
+              } else {
+                Alert.alert('ne?', 'thread gelmedi demek bu');
+              }
+            } else {
+              Alert.alert('ne?', 'res gelmedi demek bu');
+            }
+          })
+          .catch(() => {
+            Alert.alert('ne?', 'öyle bi şey yok');
           });
-          nav.dispatch(
-            StackActions.push('Entries', {
-              slug: thread
-                ? thread.slug.replace('https://eksisozluk.com', '')
-                : res.threads[0].slug.replace('https://eksisozluk.com', ''),
-              title: thread ? thread.title : res.threads[0].title,
-              isSearch: true,
-            }),
-          );
-        });
       } else {
         Linking.openURL(href);
       }
@@ -110,12 +125,6 @@ const Entry = React.memo(function Entry({
           ],
           {cancelable: false},
         );
-
-        // const newFavs = JSON.stringify(
-        //   favoriteEntries.filter(e => e.id !== entry.id),
-        // );
-        // AsyncStorage.setItem('favorites', JSON.stringify(newFavs));
-        // setFavoriteEntries(JSON.parse(newFavs));
       } else {
         const newFavs = JSON.stringify([...favoriteEntries, {...entry, title}]);
         AsyncStorage.setItem('favorites', JSON.stringify(JSON.parse(newFavs)));

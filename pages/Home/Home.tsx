@@ -2,7 +2,7 @@ import {useNavigation} from '@react-navigation/native';
 import React, {useEffect, useState} from 'react';
 import {FlatList} from 'react-native-gesture-handler';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {View, Image, Text} from 'react-native-ui-lib';
+import {View, Image, Text, Checkbox} from 'react-native-ui-lib';
 import Loading from '../../components/Loading/Loading';
 import {Debe, Topic} from '../../services/interfaces';
 import {getDebe, getSearchResults, getTopics} from '../../services/services';
@@ -21,6 +21,7 @@ import {RefreshControl, TextInput} from 'react-native';
 const Home = () => {
   const navigation = useNavigation();
   const [topics, setTopics] = useState<Topic[] | Debe[]>([]);
+  const [check, setCheck] = useState(true);
   const [searchValue, setSearchValue] = useState<string>('');
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
   const [selectedTopicFilter, setSelectedTopicFilter] =
@@ -190,6 +191,16 @@ const Home = () => {
             </PressableOpacity>
           </View>
         </View>
+        <View paddingH-12 row centerV>
+          <Checkbox
+            value={check}
+            onValueChange={() => setCheck(!check)}
+            color={UIColors.eksiGreen}
+          />
+          <Text marginL-10 textColor>
+            zam başlıklarını filtrele
+          </Text>
+        </View>
       </View>
       {autoCompleteResults?.length > 0 && <DropDown />}
 
@@ -201,7 +212,11 @@ const Home = () => {
             contentContainerStyle={{paddingBottom: 40}}
             style={{flex: 1}}
             initialNumToRender={50}
-            data={topics}
+            data={
+              check
+                ? topics.filter(topic => !topic.title.includes('zam'))
+                : topics
+            }
             refreshControl={
               <RefreshControl
                 refreshing={isRefreshing}

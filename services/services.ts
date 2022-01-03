@@ -69,13 +69,13 @@ export const autoComplete = async (
 
 export const getSearchResults = async (
   query: string,
-): Promise<SearchResults | []> => {
+): Promise<SearchResults | null> => {
   try {
     console.log(`${baseURL}/ara/${query}`);
     const response = await axios.get(`${baseURL}/ara/${query}`);
     return response.data;
   } catch (error) {
     handleError(error);
-    return [];
+    return null;
   }
 };
