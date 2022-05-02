@@ -10,13 +10,13 @@ import {UIColors} from '../../theme/colors';
 import {styles, topicLinkStyles} from './Home.style';
 import eksiLogoWhite from '../../imgs/eksi-logo-white.png';
 import nextIcon from '../../imgs/nextIcon.png';
-import {shadows} from '../../theme/shadows';
 import TopicComponent from '../../components/Topic/Topic';
 import SearchInput from '../../components/SearchInput/SearchInput';
 import PressableOpacity from '../../components/PressableOpacityComponent/PressableOpacity';
 import {screenWidth} from '../../utils/constants';
 import slugify from 'slugify';
 import {RefreshControl, TextInput} from 'react-native';
+import {shadows} from '../../theme/shadows';
 
 const Home = () => {
   const navigation = useNavigation();

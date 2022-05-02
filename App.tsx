@@ -1,18 +1,17 @@
 import React from 'react';
-import './theme/UIConfig';
+import './src/theme/UIConfig';
 import 'react-native-gesture-handler';
-import {RootNavigation} from './navigation/RootNavigation';
 import {
   createNavigationContainerRef,
   NavigationContainer,
 } from '@react-navigation/native';
-import {StatusBar} from 'react-native';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
-import {ContextProvider} from './pages/context/context';
+import {ContextProvider} from './src/pages/context/context';
+import {RootNavigation} from './src/navigation/RootNavigation';
 
 export const navRef = createNavigationContainerRef();
 
-const App = () => {
+function App() {
   return (
     <ContextProvider>
       <SafeAreaProvider>
@@ -22,5 +21,5 @@ const App = () => {
       </SafeAreaProvider>
     </ContextProvider>
   );
-};
+}
 export default App;

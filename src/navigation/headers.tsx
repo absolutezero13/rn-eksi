@@ -1,9 +1,9 @@
 import React from 'react';
 import {Image, Text, View} from 'react-native-ui-lib';
 import PressableOpacity from '../components/PressableOpacityComponent/PressableOpacity';
-import {UIColors} from '../theme/colors';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationOptions} from '@react-navigation/native-stack';
+import {UIColors} from '../theme/colors';
 
 export const HeaderWithBackTitle = ({title}: {title: string}) => {
   const navigation = useNavigation();
