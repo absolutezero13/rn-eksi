@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {handleError} from './errorhandler';
+import {handleError} from './errorHandler';
 import {
   AutoCompleteResults,
   DebeResponse,
