@@ -8,6 +8,11 @@ Eksi App is a mobile app that allows you to search for and read news articles fr
 - Typescript
 - Context API
 
+<div>
+<img  src="./readme-assets/main-page.png"><img src="./readme-assets/entries.png" > 
+ <img  src="./readme-assets/favs.png"><img  src="./readme-assets/search.png">
+</div>
+
 ## Installing
 
 You can clone the project with the command below.
@@ -20,5 +25,4 @@ Navigate to the rn-eksi folder and run this command:
 
 ```
 npm install
-
 ```
