@@ -9,8 +9,8 @@ Eksi App is a mobile app that allows you to search for and read news articles fr
 - Context API
 
 <div>
-<img  src="./readme-assets/main-page.png"><img src="./readme-assets/entries.png" > 
- <img  src="./readme-assets/favs.png"><img  src="./readme-assets/search.png">
+<img  src="./readme-assets/main-page.png" width="60"><img src="./readme-assets/entries.png" width="60"> 
+ <img  src="./readme-assets/favs.png" width="60"><img  src="./readme-assets/search.png" width="60">
 </div>
 
 ## Installing
